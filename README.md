@@ -11,6 +11,16 @@ It helps maintainers answer practical questions before letting an agent touch a 
 
 The project is intentionally dependency-free at runtime. It can run in constrained CI environments, local sandboxes, and repository checkouts without requiring a hosted agent platform.
 
+## Maintainer Workflows
+
+`amk` is designed for maintainers who want agent support without losing review discipline. It focuses on the maintenance work that is usually repetitive but still needs accountability:
+
+- PR review preparation: summarize changed files, commands, tests, and findings from an agent session.
+- Issue triage: define repeatable task specs that guide agents toward actionable maintainer notes.
+- Release readiness: confirm that documentation, license, CI, and contribution surfaces are present.
+- Security review: flag destructive shell commands and missing verification before a maintainer signs off.
+- Project health reporting: generate Markdown reports that can be attached to PRs, releases, or maintainer logs.
+
 ## Features
 
 - Repository readiness checks for README, license, package metadata, CI, issue templates, and contribution docs.
@@ -59,6 +69,23 @@ Generate a combined maintainer report:
 amk report /path/to/repo --transcript examples/transcript.jsonl --output maintainer-report.md
 ```
 
+Generate machine-readable JSON for CI or custom dashboards:
+
+```bash
+amk report /path/to/repo --transcript examples/transcript.jsonl --format json --output maintainer-report.json
+```
+
+## Example Output
+
+```text
+Repository: /path/to/repo
+Score: 100/100
+PASS readme: Repository has a README.
+PASS license: Repository declares an open-source license.
+PASS ci: Repository has GitHub Actions workflow files.
+PASS issue_template: Repository has an issue template for triage.
+```
+
 ## Transcript Format
 
 `amk` expects JSON Lines. Each line is one event:
@@ -76,6 +103,16 @@ Supported event types are `command`, `edit`, `note`, `test`, and `finding`. Unkn
 Agent-assisted OSS work is most useful when it reduces invisible maintainer load: PR review, issue triage, release preparation, documentation updates, test generation, and security review. Those workflows need repeatable checks and clear reports, not just one-off chat transcripts.
 
 Agent Maintainer Kit provides a small, auditable layer that maintainers can run before and after agent sessions.
+
+## OpenAI Codex Use Cases
+
+This project is a natural fit for Codex-assisted open-source maintenance:
+
+- Use Codex to review incoming PRs and convert agent transcripts into maintainer-facing reports.
+- Use Codex to generate tests for policy checks, transcript parsing, and report rendering.
+- Use Codex to inspect risky agent command patterns and propose safer alternatives.
+- Use Codex to draft release notes and documentation updates from structured activity logs.
+- Use API credits to automate repository health reports for OSS maintainers at review time.
 
 ## Roadmap
 

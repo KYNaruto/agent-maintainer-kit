@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from .checks import run_repo_checks
-from .reporting import build_markdown_report
+from .reporting import build_json_report, build_markdown_report
 from .transcript import analyze_transcript
 
 
@@ -79,13 +79,17 @@ def cmd_transcript(args: argparse.Namespace) -> int:
 def cmd_report(args: argparse.Namespace) -> int:
     repo_report = run_repo_checks(args.path)
     transcript_report = analyze_transcript(args.transcript) if args.transcript else None
-    markdown = build_markdown_report(repo_report, transcript_report)
+    rendered = (
+        build_json_report(repo_report, transcript_report)
+        if args.format == "json"
+        else build_markdown_report(repo_report, transcript_report)
+    )
     if args.output:
         output_path = Path(args.output).resolve()
-        output_path.write_text(markdown, encoding="utf-8")
+        output_path.write_text(rendered + "\n", encoding="utf-8")
         print(f"Wrote {output_path}")
     else:
-        print(markdown)
+        print(rendered)
     return 0
 
 
@@ -111,10 +115,11 @@ def build_parser() -> argparse.ArgumentParser:
     transcript_parser.add_argument("--fail-on-risk", action="store_true")
     transcript_parser.set_defaults(func=cmd_transcript)
 
-    report_parser = subparsers.add_parser("report", help="Generate a maintainer Markdown report.")
+    report_parser = subparsers.add_parser("report", help="Generate a maintainer report.")
     report_parser.add_argument("path", nargs="?", default=".")
     report_parser.add_argument("--transcript")
     report_parser.add_argument("--output")
+    report_parser.add_argument("--format", choices=("markdown", "json"), default="markdown")
     report_parser.set_defaults(func=cmd_report)
 
     return parser
@@ -124,4 +129,3 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     return args.func(args)
-

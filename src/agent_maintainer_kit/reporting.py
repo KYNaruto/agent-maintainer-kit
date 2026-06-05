@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime
 
 from .models import RepoReport, TranscriptReport
@@ -86,3 +87,41 @@ def build_markdown_report(
     lines.append("")
     return "\n".join(lines)
 
+
+def build_json_report(
+    repo_report: RepoReport,
+    transcript_report: TranscriptReport | None = None,
+) -> str:
+    payload: dict[str, object] = {
+        "generated_at": datetime.now(UTC).isoformat(),
+        "repository": str(repo_report.root),
+        "repository_readiness": {
+            "score": repo_report.score,
+            "checks": [
+                {
+                    "name": check.name,
+                    "passed": check.passed,
+                    "message": check.message,
+                    "weight": check.weight,
+                }
+                for check in repo_report.checks
+            ],
+        },
+    }
+
+    if transcript_report is not None:
+        payload["transcript"] = {
+            "path": str(transcript_report.path),
+            "event_counts": transcript_report.event_counts,
+            "commands": [
+                {"command": event.command, "status": event.status}
+                for event in transcript_report.commands
+            ],
+            "edited_paths": list(transcript_report.edited_paths),
+            "findings": list(transcript_report.findings),
+            "notes": list(transcript_report.notes),
+            "risky_commands": list(transcript_report.risky_commands),
+            "verification_commands": list(transcript_report.verification_commands),
+        }
+
+    return json.dumps(payload, indent=2, sort_keys=True)
