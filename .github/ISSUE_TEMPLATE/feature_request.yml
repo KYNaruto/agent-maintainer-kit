@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest a maintainer workflow or policy check.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Maintainer workflow
+      description: What OSS maintenance workflow should this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the expected CLI behavior, report output, or policy rule.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example input or output
+

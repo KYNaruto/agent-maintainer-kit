@@ -1,0 +1,127 @@
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+from .checks import run_repo_checks
+from .reporting import build_markdown_report
+from .transcript import analyze_transcript
+
+
+DEFAULT_CONFIG = {
+    "project": "agent-maintainer-kit",
+    "checks": {
+        "require_readme": True,
+        "require_license": True,
+        "require_ci": True,
+        "require_issue_template": True,
+    },
+    "policy": {
+        "risky_commands": ["rm -rf", "git reset --hard", "sudo", "chmod -R 777"],
+    },
+}
+
+EXAMPLE_TASK = {
+    "title": "Review dependency update",
+    "goal": "Use an agent to inspect a dependency update, run tests, and produce a maintainer report.",
+    "required_checks": ["readme", "license", "ci"],
+    "expected_outputs": ["summary", "risk_review", "verification_commands"],
+}
+
+
+def _write_json(path: Path, data: dict) -> None:
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def cmd_init(args: argparse.Namespace) -> int:
+    root = Path(args.path).resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    config_path = root / "amk.config.json"
+    task_dir = root / ".amk" / "tasks"
+    task_dir.mkdir(parents=True, exist_ok=True)
+
+    if not config_path.exists() or args.force:
+        _write_json(config_path, DEFAULT_CONFIG)
+    task_path = task_dir / "review-dependency-update.json"
+    if not task_path.exists() or args.force:
+        _write_json(task_path, EXAMPLE_TASK)
+
+    print(f"Initialized Agent Maintainer Kit files in {root}")
+    return 0
+
+
+def cmd_doctor(args: argparse.Namespace) -> int:
+    report = run_repo_checks(args.path)
+    print(f"Repository: {report.root}")
+    print(f"Score: {report.score}/100")
+    for check in report.checks:
+        marker = "PASS" if check.passed else "FAIL"
+        print(f"{marker} {check.name}: {check.message}")
+    return 0 if report.score >= args.min_score else 1
+
+
+def cmd_transcript(args: argparse.Namespace) -> int:
+    report = analyze_transcript(args.path)
+    print(f"Transcript: {report.path}")
+    print("Event counts:")
+    for event_type, count in sorted(report.event_counts.items()):
+        print(f"  {event_type}: {count}")
+    print(f"Commands: {len(report.commands)}")
+    print(f"Edited paths: {len(report.edited_paths)}")
+    print(f"Risky commands: {len(report.risky_commands)}")
+    if report.risky_commands:
+        for command in report.risky_commands:
+            print(f"  REVIEW: {command}")
+    return 1 if report.risky_commands and args.fail_on_risk else 0
+
+
+def cmd_report(args: argparse.Namespace) -> int:
+    repo_report = run_repo_checks(args.path)
+    transcript_report = analyze_transcript(args.transcript) if args.transcript else None
+    markdown = build_markdown_report(repo_report, transcript_report)
+    if args.output:
+        output_path = Path(args.output).resolve()
+        output_path.write_text(markdown, encoding="utf-8")
+        print(f"Wrote {output_path}")
+    else:
+        print(markdown)
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="amk",
+        description="Agent-ready OSS maintenance checks and reports.",
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    init_parser = subparsers.add_parser("init", help="Create starter config and task files.")
+    init_parser.add_argument("path", nargs="?", default=".")
+    init_parser.add_argument("--force", action="store_true", help="Overwrite existing starter files.")
+    init_parser.set_defaults(func=cmd_init)
+
+    doctor_parser = subparsers.add_parser("doctor", help="Run repository readiness checks.")
+    doctor_parser.add_argument("path", nargs="?", default=".")
+    doctor_parser.add_argument("--min-score", type=int, default=70)
+    doctor_parser.set_defaults(func=cmd_doctor)
+
+    transcript_parser = subparsers.add_parser("transcript", help="Analyze an agent JSONL transcript.")
+    transcript_parser.add_argument("path")
+    transcript_parser.add_argument("--fail-on-risk", action="store_true")
+    transcript_parser.set_defaults(func=cmd_transcript)
+
+    report_parser = subparsers.add_parser("report", help="Generate a maintainer Markdown report.")
+    report_parser.add_argument("path", nargs="?", default=".")
+    report_parser.add_argument("--transcript")
+    report_parser.add_argument("--output")
+    report_parser.set_defaults(func=cmd_report)
+
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    return args.func(args)
+

@@ -1,0 +1,13 @@
+{
+  "project": "agent-maintainer-kit",
+  "checks": {
+    "require_readme": true,
+    "require_license": true,
+    "require_ci": true,
+    "require_issue_template": true
+  },
+  "policy": {
+    "risky_commands": ["rm -rf", "git reset --hard", "sudo", "chmod -R 777"]
+  }
+}
+
