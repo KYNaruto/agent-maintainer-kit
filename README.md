@@ -63,6 +63,12 @@ Analyze an agent transcript:
 amk transcript examples/transcript.jsonl
 ```
 
+Analyze with a custom policy config:
+
+```bash
+amk transcript examples/transcript.jsonl --config examples/amk.config.json --fail-on-risk
+```
+
 Generate a combined maintainer report:
 
 ```bash
@@ -98,6 +104,21 @@ PASS issue_template: Repository has an issue template for triage.
 
 Supported event types are `command`, `edit`, `note`, `test`, and `finding`. Unknown event types are preserved in counts but ignored by specialized analyzers.
 
+## Policy Configuration
+
+`amk.config.json` lets maintainers tune command-risk detection for their project:
+
+```json
+{
+  "policy": {
+    "risky_commands": ["rm -rf", "git reset --hard", "sudo"],
+    "risky_command_regexes": ["curl .+ \\\\| sh", "git push --force"]
+  }
+}
+```
+
+`risky_commands` are treated as literal command fragments. `risky_command_regexes` are regular expressions for teams that need broader matching.
+
 ## Why This Exists
 
 Agent-assisted OSS work is most useful when it reduces invisible maintainer load: PR review, issue triage, release preparation, documentation updates, test generation, and security review. Those workflows need repeatable checks and clear reports, not just one-off chat transcripts.
@@ -121,6 +142,12 @@ This project is a natural fit for Codex-assisted open-source maintenance:
 - SARIF export for security-oriented findings.
 - Release-note generation from agent and git activity.
 - Optional OpenAI/Codex integration for maintainers who want hosted model workflows.
+
+## Documentation
+
+- [Maintainer workflows](docs/maintainer-workflows.md)
+- [Policy configuration](docs/policy.md)
+- [Codex for OSS application notes](docs/codex-for-oss.md)
 
 ## License
 

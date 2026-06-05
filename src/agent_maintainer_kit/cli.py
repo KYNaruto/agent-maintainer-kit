@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from .checks import run_repo_checks
+from .policy import discover_policy_path, load_policy
 from .reporting import build_json_report, build_markdown_report
 from .transcript import analyze_transcript
 
@@ -19,6 +20,7 @@ DEFAULT_CONFIG = {
     },
     "policy": {
         "risky_commands": ["rm -rf", "git reset --hard", "sudo", "chmod -R 777"],
+        "risky_command_regexes": ["curl .+ \\\\| sh", "git push --force"],
     },
 }
 
@@ -62,7 +64,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 
 
 def cmd_transcript(args: argparse.Namespace) -> int:
-    report = analyze_transcript(args.path)
+    policy = load_policy(args.config) if args.config else load_policy()
+    report = analyze_transcript(args.path, policy=policy)
     print(f"Transcript: {report.path}")
     print("Event counts:")
     for event_type, count in sorted(report.event_counts.items()):
@@ -78,7 +81,9 @@ def cmd_transcript(args: argparse.Namespace) -> int:
 
 def cmd_report(args: argparse.Namespace) -> int:
     repo_report = run_repo_checks(args.path)
-    transcript_report = analyze_transcript(args.transcript) if args.transcript else None
+    policy_path = Path(args.config).resolve() if args.config else discover_policy_path(args.path)
+    policy = load_policy(policy_path) if policy_path else load_policy()
+    transcript_report = analyze_transcript(args.transcript, policy=policy) if args.transcript else None
     rendered = (
         build_json_report(repo_report, transcript_report)
         if args.format == "json"
@@ -112,12 +117,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     transcript_parser = subparsers.add_parser("transcript", help="Analyze an agent JSONL transcript.")
     transcript_parser.add_argument("path")
+    transcript_parser.add_argument("--config", help="Path to amk.config.json policy config.")
     transcript_parser.add_argument("--fail-on-risk", action="store_true")
     transcript_parser.set_defaults(func=cmd_transcript)
 
     report_parser = subparsers.add_parser("report", help="Generate a maintainer report.")
     report_parser.add_argument("path", nargs="?", default=".")
     report_parser.add_argument("--transcript")
+    report_parser.add_argument("--config", help="Path to amk.config.json policy config.")
     report_parser.add_argument("--output")
     report_parser.add_argument("--format", choices=("markdown", "json"), default="markdown")
     report_parser.set_defaults(func=cmd_report)

@@ -11,6 +11,25 @@ Agent Maintainer Kit supports repeatable workflows around coding agents.
 
 The maintainer can quickly see commands, edited paths, findings, verification commands, and risky command patterns.
 
+## Policy Configuration
+
+Create an `amk.config.json` file to define project-specific risk rules:
+
+```json
+{
+  "policy": {
+    "risky_commands": ["git push --force"],
+    "risky_command_regexes": ["curl .+ \\\\| sh"]
+  }
+}
+```
+
+Then run:
+
+```bash
+amk transcript agent-session.jsonl --config amk.config.json --fail-on-risk
+```
+
 ## Issue Triage
 
 Use `.amk/tasks/*.json` files to define repeatable agent tasks. A task should include the goal, expected outputs, and required checks.

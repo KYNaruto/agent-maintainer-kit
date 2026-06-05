@@ -7,7 +7,7 @@
     "require_issue_template": true
   },
   "policy": {
-    "risky_commands": ["rm -rf", "git reset --hard", "sudo", "chmod -R 777"]
+    "risky_commands": ["rm -rf", "git reset --hard", "sudo", "chmod -R 777"],
+    "risky_command_regexes": ["curl .+ \\\\| sh", "git push --force"]
   }
 }
-

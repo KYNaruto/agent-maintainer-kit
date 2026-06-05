@@ -1,24 +1,15 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
 from .models import CommandEvent, TranscriptReport
-
-RISKY_COMMAND_PATTERNS = (
-    re.compile(r"\brm\s+-rf\b"),
-    re.compile(r"\bgit\s+reset\s+--hard\b"),
-    re.compile(r"\bgit\s+clean\s+-fd"),
-    re.compile(r"\bsudo\b"),
-    re.compile(r">\s*/dev/(disk|rdisk)"),
-    re.compile(r"\bchmod\s+-R\s+777\b"),
-)
+from .policy import Policy, load_policy
 
 
-def _is_risky_command(command: str) -> bool:
-    return any(pattern.search(command) for pattern in RISKY_COMMAND_PATTERNS)
+def _is_risky_command(command: str, policy: Policy) -> bool:
+    return any(pattern.search(command) for pattern in policy.compiled_risky_command_regexes())
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -37,7 +28,8 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return events
 
 
-def analyze_transcript(path: str | Path) -> TranscriptReport:
+def analyze_transcript(path: str | Path, policy: Policy | None = None) -> TranscriptReport:
+    active_policy = policy or load_policy()
     transcript_path = Path(path).resolve()
     events = _read_jsonl(transcript_path)
     counts: dict[str, int] = {}
@@ -55,7 +47,7 @@ def analyze_transcript(path: str | Path) -> TranscriptReport:
             command = str(event.get("command", ""))
             if command:
                 commands.append(CommandEvent(command=command, status=event.get("status")))
-                if _is_risky_command(command):
+                if _is_risky_command(command, active_policy):
                     risky_commands.append(command)
         elif event_type == "edit":
             path_value = event.get("path")
@@ -79,4 +71,3 @@ def analyze_transcript(path: str | Path) -> TranscriptReport:
         notes=tuple(notes),
         risky_commands=tuple(risky_commands),
     )
-

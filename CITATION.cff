@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If Agent Maintainer Kit helps your OSS maintenance workflow, please cite it."
+title: "Agent Maintainer Kit"
+authors:
+  - family-names: "KYNaruto"
+repository-code: "https://github.com/KYNaruto/agent-maintainer-kit"
+url: "https://github.com/KYNaruto/agent-maintainer-kit"
+version: "0.1.0"
+date-released: "2026-06-05"
+license: "MIT"
+

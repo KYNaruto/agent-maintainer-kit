@@ -1,8 +1,17 @@
 """Agent Maintainer Kit."""
 
 from .checks import run_repo_checks
+from .policy import Policy, discover_policy_path, load_policy
 from .reporting import build_json_report, build_markdown_report
 from .transcript import analyze_transcript
 
-__all__ = ["analyze_transcript", "build_json_report", "build_markdown_report", "run_repo_checks"]
+__all__ = [
+    "Policy",
+    "analyze_transcript",
+    "build_json_report",
+    "build_markdown_report",
+    "discover_policy_path",
+    "load_policy",
+    "run_repo_checks",
+]
 __version__ = "0.1.0"

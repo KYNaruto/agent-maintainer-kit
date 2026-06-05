@@ -27,6 +27,11 @@ classifiers = [
 [project.scripts]
 amk = "agent_maintainer_kit.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/KYNaruto/agent-maintainer-kit"
+Repository = "https://github.com/KYNaruto/agent-maintainer-kit"
+Issues = "https://github.com/KYNaruto/agent-maintainer-kit/issues"
+Documentation = "https://github.com/KYNaruto/agent-maintainer-kit/tree/main/docs"
+
 [tool.setuptools.packages.find]
 where = ["src"]
-

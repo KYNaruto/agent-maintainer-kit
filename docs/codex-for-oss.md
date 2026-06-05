@@ -32,3 +32,6 @@ API credits would be used to automate OSS maintainer workflows: PR review summar
 
 Agent Maintainer Kit helps open-source maintainers safely use coding agents for repository readiness checks, transcript review, command-risk detection, and maintainer-facing reports. I am the primary maintainer and use the project to improve PR review, issue triage, release preparation, documentation updates, and security review workflows for OSS projects.
 
+## Short API Credits Answer
+
+I will use API credits to automate maintainer workflows: PR review summaries, issue triage reports, test suggestions, release-note drafts, documentation updates, and security-oriented transcript reviews. The goal is to reduce OSS maintainer workload while keeping every agent-assisted change auditable before merge or release.

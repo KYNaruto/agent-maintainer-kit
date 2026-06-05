@@ -1,0 +1,17 @@
+# Documentation
+
+Agent Maintainer Kit documentation is organized around maintainer workflows.
+
+- [Maintainer workflows](maintainer-workflows.md): PR review, issue triage, release preparation, and security review.
+- [Policy configuration](policy.md): Risk rules for command review.
+- [Codex for OSS notes](codex-for-oss.md): Application-oriented project summary and credit usage.
+
+## Common Commands
+
+```bash
+amk doctor .
+amk transcript examples/transcript.jsonl --config examples/amk.config.json
+amk report . --transcript examples/transcript.jsonl --output maintainer-report.md
+amk report . --transcript examples/transcript.jsonl --format json --output maintainer-report.json
+```
+
