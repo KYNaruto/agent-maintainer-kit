@@ -6,6 +6,7 @@ Agent Maintainer Kit documentation is organized around maintainer workflows.
 - [Policy configuration](policy.md): Risk rules for command review.
 - [Release process](releasing.md): Local quality gates and automated GitHub Releases.
 - [Codex for OSS notes](codex-for-oss.md): Application-oriented project summary and credit usage.
+- [Codex for OSS application packet](application-packet.md): Concise form-ready answers and evidence.
 
 ## Common Commands
 

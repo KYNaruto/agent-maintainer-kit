@@ -185,6 +185,7 @@ This project is a natural fit for Codex-assisted open-source maintenance:
 - [Policy configuration](docs/policy.md)
 - [Release process](docs/releasing.md)
 - [Codex for OSS application notes](docs/codex-for-oss.md)
+- [Codex for OSS application packet](docs/application-packet.md)
 - [Changelog](CHANGELOG.md)
 - [Maintainers](MAINTAINERS.md)
 - [Support](SUPPORT.md)
