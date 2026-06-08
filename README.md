@@ -11,6 +11,17 @@ It helps maintainers answer practical questions before letting an agent touch a 
 
 The project is intentionally dependency-free at runtime. It can run in constrained CI environments, local sandboxes, and repository checkouts without requiring a hosted agent platform.
 
+## Maintainer Automation
+
+The repository includes a manual GitHub Actions workflow, `Maintainer Report`, that generates maintainer artifacts from the example transcript:
+
+- `maintainer-report.md`
+- `maintainer-report.json`
+- `review-comment.md`
+- `release-checklist.md`
+
+This workflow is intended as a template for OSS maintainers who want auditable agent-assisted PR review and release preparation.
+
 ## Maintainer Workflows
 
 `amk` is designed for maintainers who want agent support without losing review discipline. It focuses on the maintenance work that is usually repetitive but still needs accountability:
@@ -28,6 +39,7 @@ The project is intentionally dependency-free at runtime. It can run in constrain
 - Command risk detection for destructive shell patterns.
 - Markdown report generation for PR review notes, release preparation, and maintainer logs.
 - Release readiness checklist generation for maintainer sign-off.
+- PR and issue review comment generation for maintainer automation.
 - `init` command that creates a starter `amk.config.json` and example task spec.
 
 ## Install
@@ -88,6 +100,12 @@ Generate a release readiness checklist:
 amk release /path/to/repo --transcript examples/transcript.jsonl --version 0.1.0 --output release-checklist.md
 ```
 
+Generate a PR or issue review comment:
+
+```bash
+amk comment /path/to/repo --transcript examples/transcript.jsonl --output review-comment.md
+```
+
 ## Example Output
 
 ```text
@@ -137,6 +155,7 @@ Agent Maintainer Kit provides a small, auditable layer that maintainers can run 
 This project is a natural fit for Codex-assisted open-source maintenance:
 
 - Use Codex to review incoming PRs and convert agent transcripts into maintainer-facing reports.
+- Use Codex to draft PR and issue comments that preserve maintainer review checkpoints.
 - Use Codex to generate tests for policy checks, transcript parsing, and report rendering.
 - Use Codex to inspect risky agent command patterns and propose safer alternatives.
 - Use Codex to draft release notes and documentation updates from structured activity logs.

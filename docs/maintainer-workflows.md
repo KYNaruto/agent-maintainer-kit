@@ -2,14 +2,28 @@
 
 Agent Maintainer Kit supports repeatable workflows around coding agents.
 
+## GitHub Actions Automation
+
+The `Maintainer Report` workflow can be started manually from GitHub Actions. It generates maintainer artifacts that can be downloaded and attached to PR review or release notes:
+
+- `maintainer-report.md`
+- `maintainer-report.json`
+- `review-comment.md`
+- `release-checklist.md`
+
 ## PR Review Preparation
 
 1. Run an agent session for a PR.
 2. Export the session as JSONL transcript events.
 3. Run `amk transcript`.
 4. Run `amk report` and attach the report to the PR review notes.
+5. Run `amk comment` to draft a concise PR or issue comment.
 
 The maintainer can quickly see commands, edited paths, findings, verification commands, and risky command patterns.
+
+```bash
+amk comment . --transcript agent-session.jsonl --output review-comment.md
+```
 
 ## Policy Configuration
 
@@ -44,6 +58,7 @@ Before a release:
 amk doctor .
 amk report . --transcript release-session.jsonl --output release-maintainer-report.md
 amk report . --transcript release-session.jsonl --format json --output release-maintainer-report.json
+amk comment . --transcript release-session.jsonl --output release-review-comment.md
 amk release . --transcript release-session.jsonl --version 0.1.0 --output release-checklist.md
 ```
 

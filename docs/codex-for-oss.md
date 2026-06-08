@@ -19,6 +19,7 @@ The project is not tied to one hosted platform. It can analyze structured transc
 ## Planned Codex Usage
 
 - Review incoming PRs and generate maintainer-facing summaries.
+- Draft PR and issue comments that preserve explicit maintainer action items.
 - Generate and refine tests for transcript parsing, policy checks, and report output.
 - Audit risky command patterns and improve safety heuristics.
 - Draft release notes and documentation updates from structured activity logs.
@@ -27,11 +28,11 @@ The project is not tied to one hosted platform. It can analyze structured transc
 
 ## API Credit Usage
 
-API credits would be used to automate OSS maintainer workflows: PR review summaries, issue triage reports, test suggestions, release-note drafts, and security-oriented transcript reviews. The goal is to reduce maintainer workload while keeping decisions auditable.
+API credits would be used to automate OSS maintainer workflows: PR review summaries, issue triage reports, PR and issue comment drafts, test suggestions, release-note drafts, and security-oriented transcript reviews. The goal is to reduce maintainer workload while keeping decisions auditable.
 
 ## Current Maintainer Evidence
 
-The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, tests, policy configuration docs, and working CLI commands for maintainer reports and release readiness.
+The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, a manual maintainer-report workflow, tests, policy configuration docs, and working CLI commands for maintainer reports, review comments, and release readiness.
 
 ## 500-Character Form Answer
 

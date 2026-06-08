@@ -5,7 +5,12 @@ import unittest
 from pathlib import Path
 
 from agent_maintainer_kit.checks import run_repo_checks
-from agent_maintainer_kit.reporting import build_json_report, build_markdown_report, build_release_checklist
+from agent_maintainer_kit.reporting import (
+    build_json_report,
+    build_markdown_report,
+    build_release_checklist,
+    build_review_comment,
+)
 
 
 class ReportingTest(unittest.TestCase):
@@ -39,6 +44,16 @@ class ReportingTest(unittest.TestCase):
 
             self.assertIn("# Release Readiness Checklist: 0.1.0", checklist)
             self.assertIn("Maintainer Sign-Off", checklist)
+
+    def test_builds_review_comment(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text("# Example\n", encoding="utf-8")
+
+            comment = build_review_comment(run_repo_checks(root))
+
+            self.assertIn("Agent Maintainer Kit Review", comment)
+            self.assertIn("Maintainer Action Items", comment)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,32 @@
+name: Maintainer Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version for readiness checklist"
+        required: false
+        default: "0.1.0"
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -e .
+      - name: Generate maintainer artifacts
+        run: |
+          mkdir -p maintainer-artifacts
+          amk doctor . --min-score 100
+          amk report . --transcript examples/transcript.jsonl --output maintainer-artifacts/maintainer-report.md
+          amk report . --transcript examples/transcript.jsonl --format json --output maintainer-artifacts/maintainer-report.json
+          amk comment . --transcript examples/transcript.jsonl --output maintainer-artifacts/review-comment.md
+          amk release . --transcript examples/transcript.jsonl --version "${{ inputs.version }}" --output maintainer-artifacts/release-checklist.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maintainer-artifacts
+          path: maintainer-artifacts/

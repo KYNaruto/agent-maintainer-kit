@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .checks import run_repo_checks
 from .policy import discover_policy_path, load_policy
-from .reporting import build_json_report, build_markdown_report, build_release_checklist
+from .reporting import build_json_report, build_markdown_report, build_release_checklist, build_review_comment
 from .transcript import analyze_transcript
 
 
@@ -113,6 +113,21 @@ def cmd_release(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_comment(args: argparse.Namespace) -> int:
+    repo_report = run_repo_checks(args.path)
+    policy_path = Path(args.config).resolve() if args.config else discover_policy_path(args.path)
+    policy = load_policy(policy_path) if policy_path else load_policy()
+    transcript_report = analyze_transcript(args.transcript, policy=policy) if args.transcript else None
+    comment = build_review_comment(repo_report, transcript_report)
+    if args.output:
+        output_path = Path(args.output).resolve()
+        output_path.write_text(comment, encoding="utf-8")
+        print(f"Wrote {output_path}")
+    else:
+        print(comment)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="amk",
@@ -151,6 +166,13 @@ def build_parser() -> argparse.ArgumentParser:
     release_parser.add_argument("--version")
     release_parser.add_argument("--output")
     release_parser.set_defaults(func=cmd_release)
+
+    comment_parser = subparsers.add_parser("comment", help="Generate a PR or issue review comment.")
+    comment_parser.add_argument("path", nargs="?", default=".")
+    comment_parser.add_argument("--transcript")
+    comment_parser.add_argument("--config", help="Path to amk.config.json policy config.")
+    comment_parser.add_argument("--output")
+    comment_parser.set_defaults(func=cmd_comment)
 
     return parser
 

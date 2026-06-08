@@ -197,3 +197,66 @@ def build_release_checklist(
         ]
     )
     return "\n".join(lines)
+
+
+def build_review_comment(
+    repo_report: RepoReport,
+    transcript_report: TranscriptReport | None = None,
+) -> str:
+    readiness = "ready" if repo_report.score >= 90 and not repo_report.failed_checks else "needs review"
+    lines = [
+        "## Agent Maintainer Kit Review",
+        "",
+        f"Repository readiness: **{repo_report.score}/100** ({readiness})",
+        "",
+    ]
+
+    if repo_report.failed_checks:
+        lines.extend(["### Repository Gaps", ""])
+        for check in repo_report.failed_checks:
+            lines.append(f"- `{check.name}`: {check.message}")
+        lines.append("")
+
+    if transcript_report is not None:
+        lines.extend(["### Agent Session", ""])
+        lines.append(f"- Commands recorded: `{len(transcript_report.commands)}`")
+        lines.append(f"- Edited paths: `{len(transcript_report.edited_paths)}`")
+        lines.append(f"- Findings: `{len(transcript_report.findings)}`")
+        lines.append("")
+
+        lines.extend(["### Verification", ""])
+        if transcript_report.verification_commands:
+            for command in transcript_report.verification_commands:
+                lines.append(f"- `{command}`")
+        else:
+            lines.append("- No verification command detected.")
+        lines.append("")
+
+        lines.extend(["### Risk Review", ""])
+        if transcript_report.risky_commands:
+            for command in transcript_report.risky_commands:
+                lines.append(f"- Maintainer review required: `{command}`")
+        else:
+            lines.append("- No risky command patterns detected.")
+        lines.append("")
+    else:
+        lines.extend(
+            [
+                "### Agent Session",
+                "",
+                "- No transcript attached.",
+                "",
+            ]
+        )
+
+    lines.extend(
+        [
+            "### Maintainer Action Items",
+            "",
+            "- [ ] Confirm the summary matches the change.",
+            "- [ ] Confirm verification is sufficient for the risk of the change.",
+            "- [ ] Confirm risky commands, if any, were intentional and reviewed.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
