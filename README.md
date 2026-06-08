@@ -27,6 +27,7 @@ The project is intentionally dependency-free at runtime. It can run in constrain
 - Agent transcript analysis from JSONL event logs.
 - Command risk detection for destructive shell patterns.
 - Markdown report generation for PR review notes, release preparation, and maintainer logs.
+- Release readiness checklist generation for maintainer sign-off.
 - `init` command that creates a starter `amk.config.json` and example task spec.
 
 ## Install
@@ -79,6 +80,12 @@ Generate machine-readable JSON for CI or custom dashboards:
 
 ```bash
 amk report /path/to/repo --transcript examples/transcript.jsonl --format json --output maintainer-report.json
+```
+
+Generate a release readiness checklist:
+
+```bash
+amk release /path/to/repo --transcript examples/transcript.jsonl --version 0.1.0 --output release-checklist.md
 ```
 
 ## Example Output
@@ -148,6 +155,7 @@ This project is a natural fit for Codex-assisted open-source maintenance:
 - [Maintainer workflows](docs/maintainer-workflows.md)
 - [Policy configuration](docs/policy.md)
 - [Codex for OSS application notes](docs/codex-for-oss.md)
+- [Changelog](CHANGELOG.md)
 
 ## License
 

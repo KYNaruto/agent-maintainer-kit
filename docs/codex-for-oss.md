@@ -22,11 +22,16 @@ The project is not tied to one hosted platform. It can analyze structured transc
 - Generate and refine tests for transcript parsing, policy checks, and report output.
 - Audit risky command patterns and improve safety heuristics.
 - Draft release notes and documentation updates from structured activity logs.
+- Generate release readiness checklists for maintainer sign-off.
 - Build optional OpenAI/Codex integrations for teams that want model-assisted summaries.
 
 ## API Credit Usage
 
 API credits would be used to automate OSS maintainer workflows: PR review summaries, issue triage reports, test suggestions, release-note drafts, and security-oriented transcript reviews. The goal is to reduce maintainer workload while keeping decisions auditable.
+
+## Current Maintainer Evidence
+
+The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, tests, policy configuration docs, and working CLI commands for maintainer reports and release readiness.
 
 ## 500-Character Form Answer
 

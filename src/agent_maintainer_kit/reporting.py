@@ -125,3 +125,75 @@ def build_json_report(
         }
 
     return json.dumps(payload, indent=2, sort_keys=True)
+
+
+def build_release_checklist(
+    repo_report: RepoReport,
+    transcript_report: TranscriptReport | None = None,
+    version: str | None = None,
+) -> str:
+    generated_at = datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")
+    title = f"# Release Readiness Checklist: {version}" if version else "# Release Readiness Checklist"
+    lines = [
+        title,
+        "",
+        f"Generated: {generated_at}",
+        f"Repository: `{repo_report.root}`",
+        "",
+        "## Required Gates",
+        "",
+        f"- [{'x' if repo_report.score >= 90 else ' '}] Repository readiness score is at least 90.",
+        f"- [{'x' if not repo_report.failed_checks else ' '}] Required repository checks pass.",
+    ]
+
+    if transcript_report is not None:
+        lines.extend(
+            [
+                f"- [{'x' if transcript_report.verification_commands else ' '}] Verification commands are recorded.",
+                f"- [{'x' if not transcript_report.risky_commands else ' '}] No risky command patterns are present.",
+            ]
+        )
+    else:
+        lines.extend(
+            [
+                "- [ ] Verification transcript is attached.",
+                "- [ ] Risk review has been completed.",
+            ]
+        )
+
+    lines.extend(["", "## Repository Checks", ""])
+    for check in repo_report.checks:
+        lines.append(f"- [{'x' if check.passed else ' '}] `{check.name}`: {check.message}")
+
+    if transcript_report is not None:
+        lines.extend(["", "## Verification Commands", ""])
+        if transcript_report.verification_commands:
+            for command in transcript_report.verification_commands:
+                lines.append(f"- `{command}`")
+        else:
+            lines.append("- No verification command detected.")
+
+        lines.extend(["", "## Risk Review", ""])
+        if transcript_report.risky_commands:
+            for command in transcript_report.risky_commands:
+                lines.append(f"- Review required: `{command}`")
+        else:
+            lines.append("- No risky command patterns detected.")
+
+        if transcript_report.findings:
+            lines.extend(["", "## Findings", ""])
+            for finding in transcript_report.findings:
+                lines.append(f"- {finding}")
+
+    lines.extend(
+        [
+            "",
+            "## Maintainer Sign-Off",
+            "",
+            "- [ ] Changelog or release notes are prepared.",
+            "- [ ] Documentation changes are included when behavior changed.",
+            "- [ ] Final maintainer review is complete.",
+            "",
+        ]
+    )
+    return "\n".join(lines)

@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .checks import run_repo_checks
 from .policy import discover_policy_path, load_policy
-from .reporting import build_json_report, build_markdown_report
+from .reporting import build_json_report, build_markdown_report, build_release_checklist
 from .transcript import analyze_transcript
 
 
@@ -98,6 +98,21 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_release(args: argparse.Namespace) -> int:
+    repo_report = run_repo_checks(args.path)
+    policy_path = Path(args.config).resolve() if args.config else discover_policy_path(args.path)
+    policy = load_policy(policy_path) if policy_path else load_policy()
+    transcript_report = analyze_transcript(args.transcript, policy=policy) if args.transcript else None
+    checklist = build_release_checklist(repo_report, transcript_report, version=args.version)
+    if args.output:
+        output_path = Path(args.output).resolve()
+        output_path.write_text(checklist, encoding="utf-8")
+        print(f"Wrote {output_path}")
+    else:
+        print(checklist)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="amk",
@@ -128,6 +143,14 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--output")
     report_parser.add_argument("--format", choices=("markdown", "json"), default="markdown")
     report_parser.set_defaults(func=cmd_report)
+
+    release_parser = subparsers.add_parser("release", help="Generate a release readiness checklist.")
+    release_parser.add_argument("path", nargs="?", default=".")
+    release_parser.add_argument("--transcript")
+    release_parser.add_argument("--config", help="Path to amk.config.json policy config.")
+    release_parser.add_argument("--version")
+    release_parser.add_argument("--output")
+    release_parser.set_defaults(func=cmd_release)
 
     return parser
 

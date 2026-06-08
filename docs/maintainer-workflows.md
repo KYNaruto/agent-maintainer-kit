@@ -44,6 +44,7 @@ Before a release:
 amk doctor .
 amk report . --transcript release-session.jsonl --output release-maintainer-report.md
 amk report . --transcript release-session.jsonl --format json --output release-maintainer-report.json
+amk release . --transcript release-session.jsonl --version 0.1.0 --output release-checklist.md
 ```
 
 The generated report can be used as a release checklist and review artifact.

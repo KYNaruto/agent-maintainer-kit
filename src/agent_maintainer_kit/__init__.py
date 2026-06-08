@@ -2,7 +2,7 @@
 
 from .checks import run_repo_checks
 from .policy import Policy, discover_policy_path, load_policy
-from .reporting import build_json_report, build_markdown_report
+from .reporting import build_json_report, build_markdown_report, build_release_checklist
 from .transcript import analyze_transcript
 
 __all__ = [
@@ -10,6 +10,7 @@ __all__ = [
     "analyze_transcript",
     "build_json_report",
     "build_markdown_report",
+    "build_release_checklist",
     "discover_policy_path",
     "load_policy",
     "run_repo_checks",
