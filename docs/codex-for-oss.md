@@ -33,7 +33,11 @@ API credits would be used to automate OSS maintainer workflows: PR review summar
 
 ## Current Maintainer Evidence
 
-The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, a manual maintainer-report workflow, tests, policy configuration docs, and working CLI commands for maintainer reports, issue triage, review comments, and release readiness.
+The repository includes README, MIT license, contribution guide, code of conduct, security and support policies, maintainer responsibilities, roadmap, changelog, issue templates, PR template, GitHub Actions CI, maintainer-report and automated-release workflows, tests, policy configuration docs, and working CLI commands for maintainer reports, issue triage, review comments, and release readiness.
+
+## Honest Project Status
+
+Agent Maintainer Kit is an early-stage OSS project. It has a working CLI, tests, CI, documented maintainer workflows, and a tagged release, but it does not yet claim broad adoption or ecosystem-critical usage. The application should emphasize the concrete maintainer workflows being built and the plan to use Codex to improve them.
 
 ## 500-Character Form Answer
 

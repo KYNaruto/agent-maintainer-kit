@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -e .
+      - name: Test
+        run: python -m unittest discover -s tests
+      - name: Verify maintainer workflows
+        run: |
+          amk doctor . --min-score 100
+          amk transcript examples/transcript.jsonl --config examples/amk.config.json
+          amk triage examples/issue.json
+      - name: Build wheel
+        run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Generate release checklist
+        run: |
+          amk release . \
+            --transcript examples/transcript.jsonl \
+            --version "${GITHUB_REF_NAME#v}" \
+            --output release-checklist.md
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/* \
+            release-checklist.md \
+            --generate-notes \
+            --title "Agent Maintainer Kit $GITHUB_REF_NAME"
+

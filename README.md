@@ -22,6 +22,8 @@ The repository includes a manual GitHub Actions workflow, `Maintainer Report`, t
 
 This workflow is intended as a template for OSS maintainers who want auditable agent-assisted PR review and release preparation.
 
+Version tags also trigger a release workflow that tests the project, builds a wheel, generates a release checklist, and creates a GitHub Release.
+
 ## Maintainer Workflows
 
 `amk` is designed for maintainers who want agent support without losing review discipline. It focuses on the maintenance work that is usually repetitive but still needs accountability:
@@ -181,8 +183,11 @@ This project is a natural fit for Codex-assisted open-source maintenance:
 
 - [Maintainer workflows](docs/maintainer-workflows.md)
 - [Policy configuration](docs/policy.md)
+- [Release process](docs/releasing.md)
 - [Codex for OSS application notes](docs/codex-for-oss.md)
 - [Changelog](CHANGELOG.md)
+- [Maintainers](MAINTAINERS.md)
+- [Support](SUPPORT.md)
 
 ## License
 

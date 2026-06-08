@@ -2,6 +2,13 @@
 
 All notable changes to Agent Maintainer Kit will be documented in this file.
 
+## 0.1.1 - 2026-06-08
+
+### Added
+
+- Tag-triggered GitHub Release workflow with wheel and release checklist artifacts.
+- Maintainer responsibilities, support policy, and release documentation.
+
 ## 0.1.0 - 2026-06-08
 
 ### Added
