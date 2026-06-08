@@ -40,6 +40,7 @@ This workflow is intended as a template for OSS maintainers who want auditable a
 - Markdown report generation for PR review notes, release preparation, and maintainer logs.
 - Release readiness checklist generation for maintainer sign-off.
 - PR and issue review comment generation for maintainer automation.
+- Issue triage reports with suggested labels, priority, and maintainer follow-up questions.
 - `init` command that creates a starter `amk.config.json` and example task spec.
 
 ## Install
@@ -106,6 +107,12 @@ Generate a PR or issue review comment:
 amk comment /path/to/repo --transcript examples/transcript.jsonl --output review-comment.md
 ```
 
+Generate an issue triage report:
+
+```bash
+amk triage examples/issue.json --output issue-triage.md
+```
+
 ## Example Output
 
 ```text
@@ -156,6 +163,7 @@ This project is a natural fit for Codex-assisted open-source maintenance:
 
 - Use Codex to review incoming PRs and convert agent transcripts into maintainer-facing reports.
 - Use Codex to draft PR and issue comments that preserve maintainer review checkpoints.
+- Use Codex to triage issues into labels, priority, and maintainer follow-up questions.
 - Use Codex to generate tests for policy checks, transcript parsing, and report rendering.
 - Use Codex to inspect risky agent command patterns and propose safer alternatives.
 - Use Codex to draft release notes and documentation updates from structured activity logs.

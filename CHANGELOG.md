@@ -10,6 +10,7 @@ All notable changes to Agent Maintainer Kit will be documented in this file.
 - JSONL transcript analysis for commands, edits, findings, and notes.
 - Risky command detection with configurable policy rules.
 - Markdown and JSON maintainer reports.
+- Issue triage reports with suggested labels and maintainer response templates.
 - PR and issue review comment generation.
 - Release readiness checklist generation.
 - Manual GitHub Actions workflow for maintainer report artifacts.

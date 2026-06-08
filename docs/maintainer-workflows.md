@@ -50,6 +50,14 @@ Use `.amk/tasks/*.json` files to define repeatable agent tasks. A task should in
 
 This keeps agent sessions focused and gives contributors a clear path from issue report to maintainable output.
 
+For issue-style JSON input, run:
+
+```bash
+amk triage examples/issue.json --output issue-triage.md
+```
+
+The report includes suggested labels, priority, maintainer questions, and a response template.
+
 ## Release Preparation
 
 Before a release:

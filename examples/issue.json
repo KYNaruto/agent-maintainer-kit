@@ -1,0 +1,5 @@
+{
+  "title": "Crash when parsing transcript with invalid JSON",
+  "body": "The CLI exits with a traceback when the transcript file contains malformed JSON. It should show a maintainer-friendly error.",
+  "labels": []
+}

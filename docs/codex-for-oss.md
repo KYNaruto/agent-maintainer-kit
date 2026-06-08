@@ -20,6 +20,7 @@ The project is not tied to one hosted platform. It can analyze structured transc
 
 - Review incoming PRs and generate maintainer-facing summaries.
 - Draft PR and issue comments that preserve explicit maintainer action items.
+- Triage issue reports into labels, priority, maintainer questions, and response templates.
 - Generate and refine tests for transcript parsing, policy checks, and report output.
 - Audit risky command patterns and improve safety heuristics.
 - Draft release notes and documentation updates from structured activity logs.
@@ -32,7 +33,7 @@ API credits would be used to automate OSS maintainer workflows: PR review summar
 
 ## Current Maintainer Evidence
 
-The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, a manual maintainer-report workflow, tests, policy configuration docs, and working CLI commands for maintainer reports, review comments, and release readiness.
+The repository includes README, MIT license, contribution guide, code of conduct, security policy, roadmap, changelog, issue templates, PR template, GitHub Actions CI, a manual maintainer-report workflow, tests, policy configuration docs, and working CLI commands for maintainer reports, issue triage, review comments, and release readiness.
 
 ## 500-Character Form Answer
 

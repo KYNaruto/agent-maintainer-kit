@@ -14,5 +14,6 @@ amk transcript examples/transcript.jsonl --config examples/amk.config.json
 amk report . --transcript examples/transcript.jsonl --output maintainer-report.md
 amk report . --transcript examples/transcript.jsonl --format json --output maintainer-report.json
 amk comment . --transcript examples/transcript.jsonl --output review-comment.md
+amk triage examples/issue.json --output issue-triage.md
 amk release . --transcript examples/transcript.jsonl --version 0.1.0
 ```
