@@ -124,10 +124,10 @@ Exit criteria:
 
 These are the recommended next commits, in order:
 
-1. Add versioned JSON Schemas for issue and transcript inputs.
-2. Add rule IDs and severity to risky-command findings.
-3. Add a Python policy pack as the first policy-pack implementation.
-4. Add configurable verification-command markers.
+1. Add rule IDs and severity to risky-command findings.
+2. Add a Python policy pack as the first policy-pack implementation.
+3. Add configurable verification-command markers.
+4. Add schemas for config and generated reports.
 5. Add schema validation as an optional CLI quality gate.
 
 ## Weekly Maintenance Rhythm

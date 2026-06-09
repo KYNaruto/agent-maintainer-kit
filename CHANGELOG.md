@@ -10,6 +10,7 @@ All notable changes to Agent Maintainer Kit will be documented in this file.
 - Actionable long-term maintainer plan with phased milestones and definitions of done.
 - Friendly CLI errors for malformed input, invalid configuration, and missing files.
 - Global `--version` output and a documented stable CLI exit-code contract.
+- Versioned JSON Schema Draft 2020-12 contracts for issue and transcript inputs.
 
 ## 0.1.1 - 2026-06-08
 

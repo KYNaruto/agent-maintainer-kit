@@ -5,6 +5,7 @@ Agent Maintainer Kit documentation is organized around maintainer workflows.
 - [Maintainer workflows](maintainer-workflows.md): PR review, issue triage, release preparation, and security review.
 - [Long-term maintainer plan](long-term-plan.md): Ordered milestones, definitions of done, and the next focused changes.
 - [CLI contract](cli-contract.md): Version output, stable exit codes, and output streams.
+- [Structured input schemas](schemas.md): Versioned contracts for issue and transcript inputs.
 - [Policy configuration](policy.md): Risk rules for command review.
 - [Release process](releasing.md): Local quality gates and automated GitHub Releases.
 - [Codex for OSS notes](codex-for-oss.md): Application-oriented project summary and credit usage.

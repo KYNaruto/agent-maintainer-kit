@@ -150,6 +150,10 @@ PASS issue_template: Repository has an issue template for triage.
 
 Supported event types are `command`, `edit`, `note`, `test`, and `finding`. Unknown event types are preserved in counts but ignored by specialized analyzers.
 
+## Structured Input Schemas
+
+Versioned JSON Schema Draft 2020-12 files document issue and transcript inputs under [`schemas/v1`](schemas/v1). See [Structured Input Schemas](docs/schemas.md) for compatibility rules.
+
 ## Error Handling
 
 Expected input failures such as missing files, malformed JSON, invalid policy configuration, or unreadable text are reported as concise `amk: error: ...` messages without Python tracebacks. These failures return exit code `2`.
@@ -204,6 +208,7 @@ The ordered implementation milestones and definitions of done are maintained in 
 - [Maintainer workflows](docs/maintainer-workflows.md)
 - [Long-term maintainer plan](docs/long-term-plan.md)
 - [CLI contract](docs/cli-contract.md)
+- [Structured input schemas](docs/schemas.md)
 - [Policy configuration](docs/policy.md)
 - [Release process](docs/releasing.md)
 - [Codex for OSS application notes](docs/codex-for-oss.md)

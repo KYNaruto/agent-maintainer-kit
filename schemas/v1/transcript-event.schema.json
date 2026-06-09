@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KYNaruto/agent-maintainer-kit/blob/main/schemas/v1/transcript-event.schema.json",
+  "title": "Agent Maintainer Kit Transcript Event",
+  "description": "One JSONL event accepted by transcript-aware amk commands.",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "command"
+          }
+        }
+      },
+      "then": {
+        "required": ["command"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "edit"
+          }
+        }
+      },
+      "then": {
+        "required": ["path"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "finding"
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": ["message"]
+          },
+          {
+            "required": ["title"]
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["note", "test"]
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": ["message"]
+          },
+          {
+            "required": ["name"]
+          }
+        ]
+      }
+    }
+  ],
+  "additionalProperties": true
+}
+
