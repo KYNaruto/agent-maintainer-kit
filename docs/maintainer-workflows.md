@@ -54,9 +54,10 @@ For issue-style JSON input, run:
 
 ```bash
 amk triage examples/issue.json --output issue-triage.md
+amk triage examples/issue.json --format json --output issue-triage.json
 ```
 
-The report includes suggested labels, priority, maintainer questions, and a response template.
+The Markdown report is suitable for maintainer review. The JSON report exposes the same suggested labels, priority, maintainer questions, and response template for CI or GitHub automation.
 
 ## Release Preparation
 

@@ -115,6 +115,12 @@ Generate an issue triage report:
 amk triage examples/issue.json --output issue-triage.md
 ```
 
+Generate machine-readable issue triage output:
+
+```bash
+amk triage examples/issue.json --format json --output issue-triage.json
+```
+
 ## Example Output
 
 ```text

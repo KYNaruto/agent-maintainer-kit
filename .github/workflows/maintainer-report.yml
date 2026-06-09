@@ -26,6 +26,7 @@ jobs:
           amk report . --transcript examples/transcript.jsonl --format json --output maintainer-artifacts/maintainer-report.json
           amk comment . --transcript examples/transcript.jsonl --output maintainer-artifacts/review-comment.md
           amk triage examples/issue.json --output maintainer-artifacts/issue-triage.md
+          amk triage examples/issue.json --format json --output maintainer-artifacts/issue-triage.json
           amk release . --transcript examples/transcript.jsonl --version "${{ inputs.version }}" --output maintainer-artifacts/release-checklist.md
       - uses: actions/upload-artifact@v4
         with:

@@ -27,4 +27,5 @@ jobs:
           amk report . --transcript examples/transcript.jsonl --format json
           amk comment . --transcript examples/transcript.jsonl
           amk triage examples/issue.json
+          amk triage examples/issue.json --format json
           amk release . --transcript examples/transcript.jsonl --version 0.1.0

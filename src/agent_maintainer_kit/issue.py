@@ -135,3 +135,19 @@ def build_issue_triage_report(triage: IssueTriage) -> str:
     lines.extend(["", "## Response Template", "", triage.response_template])
     return "\n".join(lines)
 
+
+def build_issue_triage_json(triage: IssueTriage) -> str:
+    payload = {
+        "issue": {
+            "title": triage.issue.title,
+            "body": triage.issue.body,
+            "labels": list(triage.issue.labels),
+        },
+        "triage": {
+            "suggested_labels": list(triage.suggested_labels),
+            "priority": triage.priority,
+            "maintainer_questions": list(triage.maintainer_questions),
+            "response_template": triage.response_template,
+        },
+    }
+    return json.dumps(payload, indent=2, sort_keys=True)

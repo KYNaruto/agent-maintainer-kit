@@ -4,7 +4,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from agent_maintainer_kit.issue import build_issue_triage_report, load_issue, triage_issue
+from agent_maintainer_kit.issue import (
+    build_issue_triage_json,
+    build_issue_triage_report,
+    load_issue,
+    triage_issue,
+)
 
 
 class IssueTriageTest(unittest.TestCase):
@@ -36,7 +41,20 @@ class IssueTriageTest(unittest.TestCase):
             self.assertEqual(triage.priority, "high")
             self.assertIn("security", triage.suggested_labels)
 
+    def test_builds_machine_readable_triage_json(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "issue.json"
+            path.write_text(
+                '{"title":"Add JSON output","body":"Feature request for CI automation","labels":[]}\n',
+                encoding="utf-8",
+            )
+
+            rendered = build_issue_triage_json(triage_issue(load_issue(path)))
+
+            self.assertIn('"priority": "normal"', rendered)
+            self.assertIn('"suggested_labels"', rendered)
+            self.assertIn('"enhancement"', rendered)
+
 
 if __name__ == "__main__":
     unittest.main()
-

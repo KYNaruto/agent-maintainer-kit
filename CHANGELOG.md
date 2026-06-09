@@ -2,6 +2,12 @@
 
 All notable changes to Agent Maintainer Kit will be documented in this file.
 
+## Unreleased
+
+### Added
+
+- Machine-readable JSON output for issue triage automation.
+
 ## 0.1.1 - 2026-06-08
 
 ### Added

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from .checks import run_repo_checks
-from .issue import build_issue_triage_report, load_issue, triage_issue
+from .issue import build_issue_triage_json, build_issue_triage_report, load_issue, triage_issue
 from .policy import discover_policy_path, load_policy
 from .reporting import build_json_report, build_markdown_report, build_release_checklist, build_review_comment
 from .transcript import analyze_transcript
@@ -132,10 +132,14 @@ def cmd_comment(args: argparse.Namespace) -> int:
 def cmd_triage(args: argparse.Namespace) -> int:
     issue = load_issue(args.issue)
     triage = triage_issue(issue)
-    rendered = build_issue_triage_report(triage)
+    rendered = (
+        build_issue_triage_json(triage)
+        if args.format == "json"
+        else build_issue_triage_report(triage)
+    )
     if args.output:
         output_path = Path(args.output).resolve()
-        output_path.write_text(rendered, encoding="utf-8")
+        output_path.write_text(rendered + "\n", encoding="utf-8")
         print(f"Wrote {output_path}")
     else:
         print(rendered)
@@ -190,6 +194,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     triage_parser = subparsers.add_parser("triage", help="Generate an issue triage report.")
     triage_parser.add_argument("issue", help="Path to issue JSON input.")
+    triage_parser.add_argument("--format", choices=("markdown", "json"), default="markdown")
     triage_parser.add_argument("--output")
     triage_parser.set_defaults(func=cmd_triage)
 
