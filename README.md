@@ -144,6 +144,10 @@ PASS issue_template: Repository has an issue template for triage.
 
 Supported event types are `command`, `edit`, `note`, `test`, and `finding`. Unknown event types are preserved in counts but ignored by specialized analyzers.
 
+## Error Handling
+
+Expected input failures such as missing files, malformed JSON, invalid policy configuration, or unreadable text are reported as concise `amk: error: ...` messages without Python tracebacks. These failures return exit code `2`.
+
 ## Policy Configuration
 
 `amk.config.json` lets maintainers tune command-risk detection for their project:

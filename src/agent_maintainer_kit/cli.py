@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 from .checks import run_repo_checks
@@ -204,4 +205,8 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    return args.func(args)
+    try:
+        return args.func(args)
+    except (FileNotFoundError, IsADirectoryError, PermissionError, UnicodeDecodeError, ValueError) as exc:
+        print(f"amk: error: {exc}", file=sys.stderr)
+        return 2

@@ -41,7 +41,7 @@ Goal: make the dependency-free local CLI predictable enough for maintainers to a
 - [x] PR/issue review comment drafts.
 - [x] Markdown and JSON issue triage reports.
 - [x] Release readiness checklists.
-- [ ] Friendly CLI errors without Python tracebacks for expected input failures.
+- [x] Friendly CLI errors without Python tracebacks for expected input failures.
 - [ ] JSON Schema files for transcript, issue input, config, and generated reports.
 - [ ] Stable exit-code documentation for CI use.
 - [ ] `--version` CLI option.
@@ -124,11 +124,11 @@ Exit criteria:
 
 These are the recommended next commits, in order:
 
-1. Add friendly CLI error handling for malformed JSON and invalid config.
-2. Add `--version` and document stable exit codes.
-3. Add versioned JSON Schemas for issue and transcript inputs.
-4. Add rule IDs and severity to risky-command findings.
-5. Add a Python policy pack as the first policy-pack implementation.
+1. Add `--version` and document stable exit codes.
+2. Add versioned JSON Schemas for issue and transcript inputs.
+3. Add rule IDs and severity to risky-command findings.
+4. Add a Python policy pack as the first policy-pack implementation.
+5. Add configurable verification-command markers.
 
 ## Weekly Maintenance Rhythm
 
@@ -147,4 +147,3 @@ Review this plan:
 - After material external feedback.
 - Before starting a new phase.
 - At least once per month while the project is actively maintained.
-

@@ -8,6 +8,7 @@ All notable changes to Agent Maintainer Kit will be documented in this file.
 
 - Machine-readable JSON output for issue triage automation.
 - Actionable long-term maintainer plan with phased milestones and definitions of done.
+- Friendly CLI errors for malformed input, invalid configuration, and missing files.
 
 ## 0.1.1 - 2026-06-08
 
