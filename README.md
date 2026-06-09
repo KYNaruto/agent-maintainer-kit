@@ -59,6 +59,12 @@ Run directly without installing:
 PYTHONPATH=src python3 -m agent_maintainer_kit --help
 ```
 
+Print the installed version:
+
+```bash
+amk --version
+```
+
 ## Quick Start
 
 Create a starter config in a repository:
@@ -148,6 +154,8 @@ Supported event types are `command`, `edit`, `note`, `test`, and `finding`. Unkn
 
 Expected input failures such as missing files, malformed JSON, invalid policy configuration, or unreadable text are reported as concise `amk: error: ...` messages without Python tracebacks. These failures return exit code `2`.
 
+The stable exit-code meanings and output-stream behavior are documented in the [CLI Contract](docs/cli-contract.md).
+
 ## Policy Configuration
 
 `amk.config.json` lets maintainers tune command-risk detection for their project:
@@ -195,6 +203,7 @@ The ordered implementation milestones and definitions of done are maintained in 
 
 - [Maintainer workflows](docs/maintainer-workflows.md)
 - [Long-term maintainer plan](docs/long-term-plan.md)
+- [CLI contract](docs/cli-contract.md)
 - [Policy configuration](docs/policy.md)
 - [Release process](docs/releasing.md)
 - [Codex for OSS application notes](docs/codex-for-oss.md)

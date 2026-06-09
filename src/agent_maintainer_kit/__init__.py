@@ -1,6 +1,7 @@
 """Agent Maintainer Kit."""
 
 from .checks import run_repo_checks
+from .constants import EXIT_CHECK_FAILED, EXIT_INPUT_ERROR, EXIT_SUCCESS, VERSION
 from .issue import (
     IssueInput,
     IssueTriage,
@@ -15,6 +16,10 @@ from .transcript import analyze_transcript
 
 __all__ = [
     "Policy",
+    "VERSION",
+    "EXIT_SUCCESS",
+    "EXIT_CHECK_FAILED",
+    "EXIT_INPUT_ERROR",
     "IssueInput",
     "IssueTriage",
     "analyze_transcript",
@@ -30,4 +35,4 @@ __all__ = [
     "run_repo_checks",
     "triage_issue",
 ]
-__version__ = "0.1.1"
+__version__ = VERSION

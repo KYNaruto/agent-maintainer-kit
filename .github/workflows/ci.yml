@@ -22,6 +22,7 @@ jobs:
         run: python -m unittest discover -s tests
       - name: CLI smoke checks
         run: |
+          amk --version
           amk doctor . --min-score 100
           amk transcript examples/transcript.jsonl --config examples/amk.config.json
           amk report . --transcript examples/transcript.jsonl --format json
@@ -29,3 +30,10 @@ jobs:
           amk triage examples/issue.json
           amk triage examples/issue.json --format json
           amk release . --transcript examples/transcript.jsonl --version 0.1.0
+      - name: Verify input-error exit code
+        run: |
+          set +e
+          amk transcript /does/not/exist.jsonl
+          status=$?
+          set -e
+          test "$status" -eq 2

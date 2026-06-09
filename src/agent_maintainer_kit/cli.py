@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from .checks import run_repo_checks
+from .constants import EXIT_CHECK_FAILED, EXIT_INPUT_ERROR, EXIT_SUCCESS, VERSION
 from .issue import build_issue_triage_json, build_issue_triage_report, load_issue, triage_issue
 from .policy import discover_policy_path, load_policy
 from .reporting import build_json_report, build_markdown_report, build_release_checklist, build_review_comment
@@ -52,7 +53,7 @@ def cmd_init(args: argparse.Namespace) -> int:
         _write_json(task_path, EXAMPLE_TASK)
 
     print(f"Initialized Agent Maintainer Kit files in {root}")
-    return 0
+    return EXIT_SUCCESS
 
 
 def cmd_doctor(args: argparse.Namespace) -> int:
@@ -62,7 +63,7 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     for check in report.checks:
         marker = "PASS" if check.passed else "FAIL"
         print(f"{marker} {check.name}: {check.message}")
-    return 0 if report.score >= args.min_score else 1
+    return EXIT_SUCCESS if report.score >= args.min_score else EXIT_CHECK_FAILED
 
 
 def cmd_transcript(args: argparse.Namespace) -> int:
@@ -78,7 +79,7 @@ def cmd_transcript(args: argparse.Namespace) -> int:
     if report.risky_commands:
         for command in report.risky_commands:
             print(f"  REVIEW: {command}")
-    return 1 if report.risky_commands and args.fail_on_risk else 0
+    return EXIT_CHECK_FAILED if report.risky_commands and args.fail_on_risk else EXIT_SUCCESS
 
 
 def cmd_report(args: argparse.Namespace) -> int:
@@ -97,7 +98,7 @@ def cmd_report(args: argparse.Namespace) -> int:
         print(f"Wrote {output_path}")
     else:
         print(rendered)
-    return 0
+    return EXIT_SUCCESS
 
 
 def cmd_release(args: argparse.Namespace) -> int:
@@ -112,7 +113,7 @@ def cmd_release(args: argparse.Namespace) -> int:
         print(f"Wrote {output_path}")
     else:
         print(checklist)
-    return 0
+    return EXIT_SUCCESS
 
 
 def cmd_comment(args: argparse.Namespace) -> int:
@@ -127,7 +128,7 @@ def cmd_comment(args: argparse.Namespace) -> int:
         print(f"Wrote {output_path}")
     else:
         print(comment)
-    return 0
+    return EXIT_SUCCESS
 
 
 def cmd_triage(args: argparse.Namespace) -> int:
@@ -144,7 +145,7 @@ def cmd_triage(args: argparse.Namespace) -> int:
         print(f"Wrote {output_path}")
     else:
         print(rendered)
-    return 0
+    return EXIT_SUCCESS
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -152,6 +153,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="amk",
         description="Agent-ready OSS maintenance checks and reports.",
     )
+    parser.add_argument("--version", action="version", version=f"%(prog)s {VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     init_parser = subparsers.add_parser("init", help="Create starter config and task files.")
@@ -209,4 +211,4 @@ def main(argv: list[str] | None = None) -> int:
         return args.func(args)
     except (FileNotFoundError, IsADirectoryError, PermissionError, UnicodeDecodeError, ValueError) as exc:
         print(f"amk: error: {exc}", file=sys.stderr)
-        return 2
+        return EXIT_INPUT_ERROR
