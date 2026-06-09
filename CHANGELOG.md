@@ -7,6 +7,7 @@ All notable changes to Agent Maintainer Kit will be documented in this file.
 ### Added
 
 - Machine-readable JSON output for issue triage automation.
+- Actionable long-term maintainer plan with phased milestones and definitions of done.
 
 ## 0.1.1 - 2026-06-08
 

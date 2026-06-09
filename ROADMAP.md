@@ -2,6 +2,8 @@
 
 Agent Maintainer Kit is focused on helping open-source maintainers adopt coding agents safely and repeatably.
 
+For the ordered milestone checklist, definitions of done, and recommended next commits, see the [Long-Term Maintainer Plan](docs/long-term-plan.md).
+
 ## 0.1.x
 
 - Stabilize repository readiness checks.
